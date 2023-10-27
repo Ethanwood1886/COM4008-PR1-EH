@@ -12,7 +12,7 @@ pygame.display.set_caption("Army Shooter")
 FPS = 60
 
 
-ARMY_MAN = pygame.image.load("armyman.png")
+ARMY_MAN = pygame.image.load("armymanv2.png")
 POWER_UP_ICON = pygame.image.load("powerupicon.png")
 BACKGROUND = pygame.image.load("grassybackground.jpeg")
 BACKGROUND = pygame.transform.scale(BACKGROUND,(900, 500))
@@ -30,7 +30,14 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
         pygame.display.update()
+       
+       
+       
         draw_images()
+  
+  
+  
+  
     pygame.quit()
 
 if __name__ == "__main__":
