@@ -34,6 +34,28 @@ BACKGROUND = pygame.transform.scale(BACKGROUND,(900, 500))
 LEFT_HIT = pygame.USEREVENT + 1
 RIGHT_HIT = pygame.USEREVENT + 2
 
+
+def draw_window(right, left, left_bullets, right_bullets, right_health, left_health):
+    pygame.draw.rect(WIN, BLACK, BORDER)
+    WIN.blit(ARMY_MAN_LEFT, (left.x, left.y))
+    WIN.blit(ARMY_MAN_RIGHT, (right.x, right.y)) 
+ 
+ # HEALTH TEXT NUMBER 
+    right_health_text = HEALTH_FONT.render("Health: " + str(right_health), 1, WHITE)  
+    left_health_text = HEALTH_FONT.render("Health: " + str(left_health), 1, WHITE)
+    WIN.blit(right_health_text, (WIDTH - right_health_text.get_width() - 10, 10))
+    WIN.blit(left_health_text, (10, 10))
+
+    for bullet in right_bullets: 
+         pygame.draw.rectangle(WIN, (255, 0, 0), bullet)      # RIGHT BULLETS
+
+    for bullet in left_bullets:                               # LEFT BULLETS
+         pygame.draw.rectangle(WIN, (255, 255, 0), bullet)
+
+    pygame.display.update()
+
+
+
 # KEY CONTROLS & BORDERS 
 def left_movement(keys_pressed, left):
         if keys_pressed[pygame.K_a] and left.x - VEL > 0:
@@ -55,23 +77,6 @@ def right_movement(keys_pressed, right):
         if keys_pressed[pygame.K_DOWN] and right.y + VEL < HEIGHT - 125:
             right.y += VEL
 
-def draw_window(right, left, left_bullets, right_bullets, right_health, left_health):
-    pygame.draw.rect(WIN, BLACK, BORDER)
-    WIN.blit(ARMY_MAN_LEFT, (left.x, left.y))
-    WIN.blit(ARMY_MAN_RIGHT, (right.x, right.y)) 
- 
- # HEALTH TEXT NUMBER 
-    right_health_text = HEALTH_FONT.render("Health: " + str(right_health), 1, WHITE)  
-    left_health_text = HEALTH_FONT.render("Health: " + str(left_health), 1, WHITE)
-    WIN.blit(right_health_text, (WIDTH - right_health_text.get_width() - 10, 10))
-    WIN.blit(left_health_text, (10, 10))
-
-    for bullet in right_bullets: 
-         pygame.draw.rectangle(WIN, (255, 0, 0), bullet)      # RIGHT BULLETS
-
-    for bullet in left_bullets:                               # LEFT BULLETS
-         pygame.draw.rectangle(WIN, (255, 255, 0), bullet)
-    pygame.display.update()
 
 
 # MOVE, COLLISION & REMOVAL OF BULLETS
@@ -93,9 +98,10 @@ def handle_bullets(left_bullets, right_bullets, left, right):
              right_bullets.remove(bullet)
 
 
+# WINNING PLAYER TEXT
 def draw_winner(text):
      draw_text = WINNER_FONT.render(text, 1, WHITE)
-     WIN.blit(draw_text, (WIDTH//2 - draw_text.get_width()//2, HEIGHT//2 -draw_text.get_height()//2))
+     WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width()/2, HEIGHT/2 - draw_text.get_height()/2))
      pygame.display.update()
      pygame.time.delay(4000)
      
@@ -106,11 +112,12 @@ def main():
     left = pygame.Rect(150, 150, WIDTH, HEIGHT)
 
   # BULLETS
-    left_bullets = []
     right_bullets = []
+    left_bullets = []
 
-    left_health = 3
+
     right_health = 3
+    left_health = 3
 
 
     clock = pygame.time.Clock()
@@ -124,12 +131,12 @@ def main():
                 pygame.quit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LCTRL and len(left_bullets) < MAX_BULLETS:     # LEFT BULLET KEY 
+                if event.key == pygame.K_LCTRL and len(left_bullets) < MAX_BULLETS:     # ASSIGN LEFT BULLET KEY 
                      bullet = pygame.Rect(left.x + left.width, left.y + left.height//2 - 2, 10, 5)
                      left_bullets.append(bullet)            
                      #BULLET_FIRE_SOUND.play()
 
-                if event.key == pygame.K_SPACE and len(right_bullets) < MAX_BULLETS:     # RIGHT BULLET KEY
+                if event.key == pygame.K_SPACE and len(right_bullets) < MAX_BULLETS:     # ASSIGN RIGHT BULLET KEY
                      bullet = pygame.Rect(right.x, right.y + right.height//2 - 2, 10, 5)
                      right_bullets.append(bullet)
                      #BULLET_FIRE_SOUND.play()
@@ -144,7 +151,7 @@ def main():
                  #BULLET_HIT_SOUND.play()
                 
 
-# WINNING TEXT
+# ASSIGNING WINNING TEXT TO PLAYER
         winner_text = ""
         if right_health <= 0:
             winner_text = "Left Player wins!"            
@@ -163,7 +170,8 @@ def main():
         handle_bullets(left_bullets, right_bullets, left, right)
 
 
-        draw_window(right, left, left_bullets, right_bullets, right_health, left_health)
+        draw_window(right, left, right_bullets, left_bullets, right_health, left_health)
+        
     main()
 
 if __name__ == "__main__":
