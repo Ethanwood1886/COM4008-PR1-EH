@@ -2,8 +2,8 @@ import pygame
 import os 
 pygame.font.init()
 pygame.mixer.init()
-# os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
-os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
+os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
+# os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
 
 pygame.init()
 
@@ -35,7 +35,7 @@ LEFT_HIT = pygame.USEREVENT + 1
 RIGHT_HIT = pygame.USEREVENT + 2
 
 
-def draw_window(right, left, left_bullets, right_bullets, right_health, left_health):
+def draw_window(right, left, right_bullets, left_bullets, right_health, left_health):
     pygame.draw.rect(WIN, BLACK, BORDER)
     WIN.blit(ARMY_MAN_LEFT, (left.x, left.y))
     WIN.blit(ARMY_MAN_RIGHT, (right.x, right.y)) 
@@ -47,10 +47,10 @@ def draw_window(right, left, left_bullets, right_bullets, right_health, left_hea
     WIN.blit(left_health_text, (10, 10))
 
     for bullet in right_bullets: 
-         pygame.draw.rectangle(WIN, (255, 0, 0), bullet)      # RIGHT BULLETS
+         pygame.draw.rect(WIN, (255, 0, 0), bullet)      # RIGHT BULLETS
 
     for bullet in left_bullets:                               # LEFT BULLETS
-         pygame.draw.rectangle(WIN, (255, 255, 0), bullet)
+         pygame.draw.rect(WIN, (WHITE), bullet)
 
     pygame.display.update()
 
@@ -101,7 +101,7 @@ def handle_bullets(left_bullets, right_bullets, left, right):
 # WINNING PLAYER TEXT
 def draw_winner(text):
      draw_text = WINNER_FONT.render(text, 1, WHITE)
-     WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width()/2, HEIGHT/2 - draw_text.get_height()/2))
+     WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width() / 2, HEIGHT/2 - draw_text.get_height()/2))
      pygame.display.update()
      pygame.time.delay(4000)
      
@@ -132,12 +132,12 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LCTRL and len(left_bullets) < MAX_BULLETS:     # ASSIGN LEFT BULLET KEY 
-                     bullet = pygame.Rect(left.x + left.width, left.y + left.height//2 - 2, 10, 5)
+                     bullet = pygame.Rect(left.x + left.width, left.y + left.height, 10, 5)
                      left_bullets.append(bullet)            
                      #BULLET_FIRE_SOUND.play()
 
                 if event.key == pygame.K_SPACE and len(right_bullets) < MAX_BULLETS:     # ASSIGN RIGHT BULLET KEY
-                     bullet = pygame.Rect(right.x, right.y + right.height//2 - 2, 10, 5)
+                     bullet = pygame.Rect(right.x, right.y + right.height/ 8, 10, 5)
                      right_bullets.append(bullet)
                      #BULLET_FIRE_SOUND.play()
 # HEALTH
@@ -171,8 +171,6 @@ def main():
 
 
         draw_window(right, left, right_bullets, left_bullets, right_health, left_health)
-        
-    main()
 
 if __name__ == "__main__":
     main()
