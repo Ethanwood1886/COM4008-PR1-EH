@@ -2,9 +2,9 @@ import pygame
 import os 
 pygame.font.init()
 pygame.mixer.init()
-os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
+# os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
 # os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
-
+os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
 pygame.init()
 
 WIDTH, HEIGHT = 900, 500
@@ -18,6 +18,8 @@ pygame.display.set_caption("Army Shooter")
 # CONSTANTS
 BLACK = (0, 0, 0)
 WHITE = (255,255,255)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
 FPS = 60
 VEL = 8
 BULLET_VEL = 10
@@ -36,6 +38,7 @@ RIGHT_HIT = pygame.USEREVENT + 2
 
 
 def draw_window(right, left, right_bullets, left_bullets, right_health, left_health):
+    WIN.blit(BACKGROUND, (0,0))
     pygame.draw.rect(WIN, BLACK, BORDER)
     WIN.blit(ARMY_MAN_LEFT, (left.x, left.y))
     WIN.blit(ARMY_MAN_RIGHT, (right.x, right.y)) 
@@ -47,10 +50,10 @@ def draw_window(right, left, right_bullets, left_bullets, right_health, left_hea
     WIN.blit(left_health_text, (10, 10))
 
     for bullet in right_bullets: 
-         pygame.draw.rect(WIN, (255, 0, 0), bullet)      # RIGHT BULLETS
+        pygame.draw.rect(WIN, (RED), bullet)      # RIGHT BULLETS
 
-    for bullet in left_bullets:                               # LEFT BULLETS
-         pygame.draw.rect(WIN, (WHITE), bullet)
+    for bullet in left_bullets:                   # LEFT BULLETS
+        pygame.draw.rect(WIN, (BLUE), bullet)
 
     pygame.display.update()
 
@@ -60,50 +63,50 @@ def draw_window(right, left, right_bullets, left_bullets, right_health, left_hea
 def left_movement(keys_pressed, left):
         if keys_pressed[pygame.K_a] and left.x - VEL > 0:
             left.x -= VEL
-        if keys_pressed[pygame.K_d] and left.x + VEL < BORDER.x - 100:
+        if keys_pressed[pygame.K_d] and left.x + VEL < BORDER.x:
             left.x += VEL
         if keys_pressed[pygame.K_w] and left.y - VEL > 0:
             left.y -= VEL
-        if keys_pressed[pygame.K_s] and left.y + VEL < HEIGHT - 125:
+        if keys_pressed[pygame.K_s] and left.y + VEL < HEIGHT - '''125''':
             left.y += VEL
 
 def right_movement(keys_pressed, right):
         if keys_pressed[pygame.K_LEFT] and right.x - VEL > BORDER.x:
             right.x -= VEL
-        if keys_pressed[pygame.K_RIGHT] and right.x + VEL < WIDTH - 100:
+        if keys_pressed[pygame.K_RIGHT] and right.x + VEL < WIDTH - '''100''':
             right.x += VEL
         if keys_pressed[pygame.K_UP] and right.y - VEL > 0:
             right.y -= VEL
-        if keys_pressed[pygame.K_DOWN] and right.y + VEL < HEIGHT - 125:
+        if keys_pressed[pygame.K_DOWN] and right.y + VEL < HEIGHT - '''125''':
             right.y += VEL
 
 
 
 # MOVE, COLLISION & REMOVAL OF BULLETS
 def handle_bullets(left_bullets, right_bullets, left, right): 
-     for bullet in left_bullets:
+    for bullet in left_bullets:
         bullet.x += BULLET_VEL
         if right.colliderect(bullet):
-               pygame.event.post(pygame.event.Event(RIGHT_HIT))
-               left_bullets.remove(bullet)
+            pygame.event.post(pygame.event.Event(RIGHT_HIT))
+            left_bullets.remove(bullet)
         elif bullet.x > WIDTH:
-             left_bullets.remove(bullet)
+            left_bullets.remove(bullet)
 
-     for bullet in right_bullets:
+    for bullet in right_bullets:
         bullet.x -= BULLET_VEL
         if left.colliderect(bullet):
-               pygame.event.post(pygame.event.Event(LEFT_HIT))
-               right_bullets.remove(bullet)
+            pygame.event.post(pygame.event.Event(LEFT_HIT))
+            right_bullets.remove(bullet)
         elif bullet.x < 0:
-             right_bullets.remove(bullet)
+            right_bullets.remove(bullet)
 
 
 # WINNING PLAYER TEXT
 def draw_winner(text):
-     draw_text = WINNER_FONT.render(text, 1, WHITE)
-     WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width() / 2, HEIGHT/2 - draw_text.get_height()/2))
-     pygame.display.update()
-     pygame.time.delay(4000)
+    draw_text = WINNER_FONT.render(text, 1, WHITE)
+    WIN.blit(draw_text, (WIDTH/2 - draw_text.get_width() / 2, HEIGHT/2 - draw_text.get_height()/2))
+    pygame.display.update()
+    pygame.time.delay(4000)
      
 
 # GAME LOOP
@@ -111,7 +114,7 @@ def main():
     right = pygame.Rect(700, 150, WIDTH, HEIGHT)
     left = pygame.Rect(150, 150, WIDTH, HEIGHT)
 
-  # BULLETS
+# BULLETS
     right_bullets = []
     left_bullets = []
 
@@ -124,7 +127,6 @@ def main():
     run = True
     while run:
         clock.tick(FPS)
-        WIN.blit(BACKGROUND, (0,0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -132,23 +134,23 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LCTRL and len(left_bullets) < MAX_BULLETS:     # ASSIGN LEFT BULLET KEY 
-                     bullet = pygame.Rect(left.x + left.width, left.y + left.height, 10, 5)
-                     left_bullets.append(bullet)            
-                     #BULLET_FIRE_SOUND.play()
+                    bullet = pygame.Rect(left.x + left.width, left.y + left.height//2, 10, 5)
+                    left_bullets.append(bullet)            
+                    #BULLET_FIRE_SOUND.play()
 
                 if event.key == pygame.K_SPACE and len(right_bullets) < MAX_BULLETS:     # ASSIGN RIGHT BULLET KEY
-                     bullet = pygame.Rect(right.x, right.y + right.height/ 8, 10, 5)
-                     right_bullets.append(bullet)
-                     #BULLET_FIRE_SOUND.play()
+                    bullet = pygame.Rect(right.x, right.y + right.height//2, 10, 5)
+                    right_bullets.append(bullet)
+                    #BULLET_FIRE_SOUND.play()
 # HEALTH
             if event.type == RIGHT_HIT:
-                 right_health -= 1
-                 #BULLET_HIT_SOUND.play()
+                right_health -= 1
+                #BULLET_HIT_SOUND.play()
 
 
             if event.type == LEFT_HIT:
-                 left_health -= 1
-                 #BULLET_HIT_SOUND.play()
+                left_health -= 1
+                #BULLET_HIT_SOUND.play()
                 
 
 # ASSIGNING WINNING TEXT TO PLAYER
