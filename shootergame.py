@@ -12,8 +12,9 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Army Shooter")
 
 # SOUNDS
-BULLET_HIT_SOUND = pygame.mixer.Sound('Shooter_Game_Assets/grenadesound.mp3')
-BULLET_FIRE_SOUND = pygame.mixer.Sound('Shooter_Game_Assets/shoutgunsound.mp3')
+BULLET_HIT_SOUND = pygame.mixer.Sound('grenadesound.mp3')
+BULLET_FIRE_SOUND = pygame.mixer.Sound('shotgunsound.mp3')
+POWER_UP_SOUND = pygame.mixer.Sound('powerupsound.mp3')
 
 # CONSTANTS
 BLACK = (0, 0, 0)
