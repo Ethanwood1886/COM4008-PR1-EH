@@ -3,8 +3,8 @@ import os
 pygame.font.init()
 pygame.mixer.init()
 # os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
-# os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
-os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
+os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
+# os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
 pygame.init()
 
 WIDTH, HEIGHT = 900, 500
@@ -30,6 +30,8 @@ BORDER = pygame.Rect(WIDTH//2 - 3, 0, 6, HEIGHT)
 ARMY_MAN = pygame.image.load("armymanv2.png")
 ARMY_MAN_LEFT = pygame.transform.scale(ARMY_MAN, (100, 125))
 ARMY_MAN_RIGHT = pygame.transform.flip(pygame.transform.scale(ARMY_MAN, (100, 125)), True, False)
+ARMY_MAN_WIDTH = 100
+ARMY_MAN_HEIGHT = 125
 POWER_UP_ICON = pygame.image.load("powerupicon.png")
 BACKGROUND = pygame.image.load("grassybackground.jpeg")
 BACKGROUND = pygame.transform.scale(BACKGROUND,(900, 500))
@@ -40,20 +42,22 @@ RIGHT_HIT = pygame.USEREVENT + 2
 def draw_window(right, left, right_bullets, left_bullets, right_health, left_health):
     WIN.blit(BACKGROUND, (0,0))
     pygame.draw.rect(WIN, BLACK, BORDER)
-    WIN.blit(ARMY_MAN_LEFT, (left.x, left.y))
-    WIN.blit(ARMY_MAN_RIGHT, (right.x, right.y)) 
- 
- # HEALTH TEXT NUMBER 
+
+     # HEALTH TEXT NUMBER 
     right_health_text = HEALTH_FONT.render("Health: " + str(right_health), 1, WHITE)  
     left_health_text = HEALTH_FONT.render("Health: " + str(left_health), 1, WHITE)
     WIN.blit(right_health_text, (WIDTH - right_health_text.get_width() - 10, 10))
     WIN.blit(left_health_text, (10, 10))
 
+    WIN.blit(ARMY_MAN_LEFT, (left.x, left.y))
+    WIN.blit(ARMY_MAN_RIGHT, (right.x, right.y)) 
+
+
     for bullet in right_bullets: 
         pygame.draw.rect(WIN, (RED), bullet)      # RIGHT BULLETS
 
     for bullet in left_bullets:                   # LEFT BULLETS
-        pygame.draw.rect(WIN, (BLUE), bullet)
+        pygame.draw.rect(WIN, (WHITE), bullet)
 
     pygame.display.update()
 
@@ -67,17 +71,17 @@ def left_movement(keys_pressed, left):
             left.x += VEL
         if keys_pressed[pygame.K_w] and left.y - VEL > 0:
             left.y -= VEL
-        if keys_pressed[pygame.K_s] and left.y + VEL < HEIGHT - '''125''':
+        if keys_pressed[pygame.K_s] and left.y + VEL < HEIGHT - 125:
             left.y += VEL
 
 def right_movement(keys_pressed, right):
         if keys_pressed[pygame.K_LEFT] and right.x - VEL > BORDER.x:
             right.x -= VEL
-        if keys_pressed[pygame.K_RIGHT] and right.x + VEL < WIDTH - '''100''':
+        if keys_pressed[pygame.K_RIGHT] and right.x + VEL < WIDTH - 100:
             right.x += VEL
         if keys_pressed[pygame.K_UP] and right.y - VEL > 0:
             right.y -= VEL
-        if keys_pressed[pygame.K_DOWN] and right.y + VEL < HEIGHT - '''125''':
+        if keys_pressed[pygame.K_DOWN] and right.y + VEL < HEIGHT - 125:
             right.y += VEL
 
 
@@ -111,16 +115,16 @@ def draw_winner(text):
 
 # GAME LOOP
 def main():
-    right = pygame.Rect(700, 150, WIDTH, HEIGHT)
-    left = pygame.Rect(150, 150, WIDTH, HEIGHT)
+    right = pygame.Rect(700, 150, ARMY_MAN_WIDTH, ARMY_MAN_HEIGHT)
+    left = pygame.Rect(150, 150, ARMY_MAN_WIDTH, ARMY_MAN_HEIGHT)
 
 # BULLETS
     right_bullets = []
     left_bullets = []
 
 
-    right_health = 3
-    left_health = 3
+    right_health = 5
+    left_health = 5
 
 
     clock = pygame.time.Clock()
