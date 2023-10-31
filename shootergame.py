@@ -2,8 +2,8 @@ import pygame
 import os 
 pygame.font.init()
 pygame.mixer.init()
-# os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
-os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
+os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
+# os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
 # os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
 pygame.init()
 
