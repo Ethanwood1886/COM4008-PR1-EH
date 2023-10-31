@@ -2,9 +2,9 @@ import pygame
 import os 
 pygame.font.init()
 pygame.mixer.init()
-# os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
-os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
-# os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
+os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
+#os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
+#os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
 pygame.init()
 
 WIDTH, HEIGHT = 900, 500
@@ -12,8 +12,8 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Army Shooter")
 
 # SOUNDS
-#     FIND SOUND      BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join('Shooter_Game_Assets/'))
-#     BULLET_FIRE_SOUND = pygame.mixer.Sound('Shooter_Game_Assets/shoutgunsound.mp3')
+BULLET_HIT_SOUND = pygame.mixer.Sound('Shooter_Game_Assets/grenadesound.mp3')
+BULLET_FIRE_SOUND = pygame.mixer.Sound('Shooter_Game_Assets/shoutgunsound.mp3')
 
 # CONSTANTS
 BLACK = (0, 0, 0)
@@ -140,21 +140,21 @@ def main():
                 if event.key == pygame.K_LCTRL and len(left_bullets) < MAX_BULLETS:     # ASSIGN LEFT BULLET KEY 
                     bullet = pygame.Rect(left.x + left.width, left.y + left.height//2, 10, 5)
                     left_bullets.append(bullet)            
-                    #BULLET_FIRE_SOUND.play()
+                    BULLET_FIRE_SOUND.play()
 
                 if event.key == pygame.K_SPACE and len(right_bullets) < MAX_BULLETS:     # ASSIGN RIGHT BULLET KEY
                     bullet = pygame.Rect(right.x, right.y + right.height//2, 10, 5)
                     right_bullets.append(bullet)
-                    #BULLET_FIRE_SOUND.play()
+                    BULLET_FIRE_SOUND.play()
 # HEALTH
             if event.type == RIGHT_HIT:
                 right_health -= 1
-                #BULLET_HIT_SOUND.play()
+                BULLET_HIT_SOUND.play()
 
 
             if event.type == LEFT_HIT:
                 left_health -= 1
-                #BULLET_HIT_SOUND.play()
+                BULLET_HIT_SOUND.play()
                 
 
 # ASSIGNING WINNING TEXT TO PLAYER
