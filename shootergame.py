@@ -3,8 +3,8 @@ import os
 pygame.font.init()
 pygame.mixer.init()
 os.chdir("G:\\GitHub\COM4008-PR1-EH\Shooter_Game_Assets")
-#os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
-#os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
+# os.chdir("C:\\Users\\hasna\\OneDrive\\Documents\\GitHub\\COM4008-PR1-EH\\Shooter_Game_Assets")
+# os.chdir(r'c:\Users\craft\OneDrive\Documents\GitHub\COM4008-PR1-EH\Shooter_Game_Assets')
 pygame.init()
 
 WIDTH, HEIGHT = 900, 500
@@ -40,6 +40,7 @@ LEFT_HIT = pygame.USEREVENT + 1
 RIGHT_HIT = pygame.USEREVENT + 2
 
 
+
 def draw_window(right, left, right_bullets, left_bullets, right_health, left_health):
     WIN.blit(BACKGROUND, (0,0))
     pygame.draw.rect(WIN, BLACK, BORDER)
@@ -63,12 +64,11 @@ def draw_window(right, left, right_bullets, left_bullets, right_health, left_hea
     pygame.display.update()
 
 
-
 # KEY CONTROLS & BORDERS 
 def left_movement(keys_pressed, left):
         if keys_pressed[pygame.K_a] and left.x - VEL > 0:
             left.x -= VEL
-        if keys_pressed[pygame.K_d] and left.x + VEL < BORDER.x:
+        if keys_pressed[pygame.K_d] and left.x + VEL < BORDER.x - 100:
             left.x += VEL
         if keys_pressed[pygame.K_w] and left.y - VEL > 0:
             left.y -= VEL
@@ -84,7 +84,6 @@ def right_movement(keys_pressed, right):
             right.y -= VEL
         if keys_pressed[pygame.K_DOWN] and right.y + VEL < HEIGHT - 125:
             right.y += VEL
-
 
 
 # MOVE, COLLISION & REMOVAL OF BULLETS
@@ -119,6 +118,7 @@ def main():
     right = pygame.Rect(700, 150, ARMY_MAN_WIDTH, ARMY_MAN_HEIGHT)
     left = pygame.Rect(150, 150, ARMY_MAN_WIDTH, ARMY_MAN_HEIGHT)
 
+
 # BULLETS
     right_bullets = []
     left_bullets = []
@@ -147,6 +147,8 @@ def main():
                     bullet = pygame.Rect(right.x, right.y + right.height//2, 10, 5)
                     right_bullets.append(bullet)
                     BULLET_FIRE_SOUND.play()
+
+
 # HEALTH
             if event.type == RIGHT_HIT:
                 right_health -= 1
@@ -156,7 +158,7 @@ def main():
             if event.type == LEFT_HIT:
                 left_health -= 1
                 BULLET_HIT_SOUND.play()
-                
+
 
 # ASSIGNING WINNING TEXT TO PLAYER
         winner_text = ""
@@ -178,6 +180,9 @@ def main():
 
 
         draw_window(right, left, right_bullets, left_bullets, right_health, left_health)
+
+    main()   # AUTO RESTARTS THE GAME- CALLS MAIN FUNCTION
+        
 
 if __name__ == "__main__":
     main()
