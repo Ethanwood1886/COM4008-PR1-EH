@@ -12,8 +12,9 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Army Shooter")
 
 # SOUNDS
-#     FIND SOUND      BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join('Shooter_Game_Assets/'))
-#     BULLET_FIRE_SOUND = pygame.mixer.Sound('Shooter_Game_Assets/shoutgunsound.mp3')
+BULLET_HIT_SOUND = pygame.mixer.Sound('grenadesound.mp3')
+BULLET_FIRE_SOUND = pygame.mixer.Sound('shotgunsound.mp3')
+POWER_UP_SOUND = pygame.mixer.Sound('powerupsound.mp3')
 
 # CONSTANTS
 BLACK = (0, 0, 0)
@@ -39,6 +40,7 @@ LEFT_HIT = pygame.USEREVENT + 1
 RIGHT_HIT = pygame.USEREVENT + 2
 
 
+
 def draw_window(right, left, right_bullets, left_bullets, right_health, left_health):
     WIN.blit(BACKGROUND, (0,0))
     pygame.draw.rect(WIN, BLACK, BORDER)
@@ -62,12 +64,11 @@ def draw_window(right, left, right_bullets, left_bullets, right_health, left_hea
     pygame.display.update()
 
 
-
 # KEY CONTROLS & BORDERS 
 def left_movement(keys_pressed, left):
         if keys_pressed[pygame.K_a] and left.x - VEL > 0:
             left.x -= VEL
-        if keys_pressed[pygame.K_d] and left.x + VEL < BORDER.x:
+        if keys_pressed[pygame.K_d] and left.x + VEL < BORDER.x - 100:
             left.x += VEL
         if keys_pressed[pygame.K_w] and left.y - VEL > 0:
             left.y -= VEL
@@ -83,7 +84,6 @@ def right_movement(keys_pressed, right):
             right.y -= VEL
         if keys_pressed[pygame.K_DOWN] and right.y + VEL < HEIGHT - 125:
             right.y += VEL
-
 
 
 # MOVE, COLLISION & REMOVAL OF BULLETS
@@ -118,6 +118,7 @@ def main():
     right = pygame.Rect(700, 150, ARMY_MAN_WIDTH, ARMY_MAN_HEIGHT)
     left = pygame.Rect(150, 150, ARMY_MAN_WIDTH, ARMY_MAN_HEIGHT)
 
+
 # BULLETS
     right_bullets = []
     left_bullets = []
@@ -140,22 +141,24 @@ def main():
                 if event.key == pygame.K_LCTRL and len(left_bullets) < MAX_BULLETS:     # ASSIGN LEFT BULLET KEY 
                     bullet = pygame.Rect(left.x + left.width, left.y + left.height//2, 10, 5)
                     left_bullets.append(bullet)            
-                    #BULLET_FIRE_SOUND.play()
+                    BULLET_FIRE_SOUND.play()
 
                 if event.key == pygame.K_SPACE and len(right_bullets) < MAX_BULLETS:     # ASSIGN RIGHT BULLET KEY
                     bullet = pygame.Rect(right.x, right.y + right.height//2, 10, 5)
                     right_bullets.append(bullet)
-                    #BULLET_FIRE_SOUND.play()
+                    BULLET_FIRE_SOUND.play()
+
+
 # HEALTH
             if event.type == RIGHT_HIT:
                 right_health -= 1
-                #BULLET_HIT_SOUND.play()
+                BULLET_HIT_SOUND.play()
 
 
             if event.type == LEFT_HIT:
                 left_health -= 1
-                #BULLET_HIT_SOUND.play()
-                
+                BULLET_HIT_SOUND.play()
+
 
 # ASSIGNING WINNING TEXT TO PLAYER
         winner_text = ""
@@ -177,6 +180,9 @@ def main():
 
 
         draw_window(right, left, right_bullets, left_bullets, right_health, left_health)
+
+    main()   # AUTO RESTARTS THE GAME- CALLS MAIN FUNCTION
+        
 
 if __name__ == "__main__":
     main()
